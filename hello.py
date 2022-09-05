@@ -1,5 +1,3 @@
-# coding:utf-8
-
 from flask import Flask, render_template, request
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer, ListTrainer
@@ -21,6 +19,11 @@ trainer.train([
     "Como posso te ajudar?",
 ])
 
+trainer.train([
+    "Preciso de uma informação",
+    "Qual seria a informação?",
+])
+
 
 @app.route("/")
 def home():
@@ -30,6 +33,11 @@ def home():
 def get_bot_response():
     userText = request.args.get('msg')
     return str(english_bot.get_response(userText))
+
+
+@app.route('/hello')
+def hello():
+    return 'Hello, World!'
 
 
 if __name__ == "__main__":
