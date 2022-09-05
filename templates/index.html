@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <h1>Flask Chatterbot Example</h1>
-    <h3>A web implementation of <a href="https://github.com/gunthercox/ChatterBot">ChatterBot</a> using Flask.</h3>
-    <div>
-      <div id="chatbox">
-        <div id="robot-image" style="text-align: left; padding-bottom: 25px;"><img src="/static/img/robot.png" width="100" alt="My Image"  /></div>
-        <p class="botText"><span>Hi! I'm Chatterbot.</span></p>
-      </div>
-      <div id="userInput">
-        <input id="textInput" type="text" name="msg" placeholder="Message">
-        <!-- <input id="buttonInput" type="submit" value="Send"> -->
-        <input class="btn btn-info" id="buttonInput" type="submit" value="Send">
-      </div>
-      <script>
-        function getBotResponse() {
-          var rawText = $("#textInput").val();
-          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
-          $("#textInput").val("");
-          $("#chatbox").append(userHtml);
-          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
-          $.get("/get", { msg: rawText }).done(function(data) {
-            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
-            $("#chatbox").append(botHtml);
-            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
-          });
-        }
-        $("#textInput").keypress(function(e) {
-            if ((e.which == 13) && document.getElementById("textInput").value != "" ){
-                getBotResponse();
+   <head>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <link rel="icon" href="/static/img/robot.png">
+   </head>
+   <body>
+      <h1>Hello Chatterbot</h1>
+      <h3>Implementation of <a href="https://chatterbot.readthedocs.io/en/stable/quickstart.html">ChatterBot</a> using Flask.</h3>
+      <div>
+         <div id="chatbox">
+            <div id="robot-image"><img src="/static/img/robot.png" width="100" alt="My Image"  /></div>
+            <p class="botText"><span>Olá eu sou o Chatterbot.</span></p>
+         </div>
+         <div id="userInput">
+            <!-- <input id="textInput" type="text" name="msg" placeholder="Message"> -->
+            <input id="textInput" class="form-control" type="text" name="msg" placeholder="Digite aqui sua mensagem...">
+            <input class="btn btn-info" id="buttonInput" type="submit" value="Send">
+         </div>
+         <script>
+            function getBotResponse() {
+              var rawText = $("#textInput").val();
+              var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+              $("#textInput").val("");
+              $("#chatbox").append(userHtml);
+              document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+              // função em jquery / ajax para capturar a resposta do bot e fazer o append no HTML
+              $.get("/get", { msg: rawText }).done(function(data) {
+                var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+                $("#chatbox").append(botHtml);
+                document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+              });
             }
-        });
-        $("#buttonInput").click(function() {
-            if (document.getElementById("textInput").value != "") {
-                getBotResponse();
-            }
-        })
-      </script>
-    </div>
-  </body>
+            $("#textInput").keypress(function(e) {
+                if ((e.which == 13) && document.getElementById("textInput").value != "" ){
+                    getBotResponse();
+                }
+            });
+            $("#buttonInput").click(function() {
+                if (document.getElementById("textInput").value != "") {
+                    getBotResponse();
+                }
+            })
+         </script>
+      </div>
+   </body>
 </html>
